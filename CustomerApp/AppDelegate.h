@@ -8,10 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+#import "WQXMPPManager.h"
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, strong) UINavigationController *navControl;
 
+@property (nonatomic, strong) WQXMPPManager *xmppManager;
+@property (assign, nonatomic) BOOL isReachable;//网络是否连接
 
++ (AppDelegate *)shareIntance;
+
+-(void)showRootVC;
 @end
 

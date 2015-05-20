@@ -1,0 +1,76 @@
+{
+    "status": "1",
+    "msg": "sss",
+    "returnObj": {
+        "productId": 20,
+        "type": 1,
+        "productName": "篮球鞋",
+        "productPrice": "288",
+        "productStock": 873734,
+        "proClassAId": 3,
+        "proClassAName": "鞋类",
+        "proClassBId": 3,
+        "proClassBName": "篮球鞋",
+        "productIsHot": 1,
+        "productIsSale": 1,
+        "proOnSaleType": 1,
+        "onSalePrice": "21",
+        "proSaleStartTime": "2015-05-13 22:43",
+        "proSaleEndTime": "2015-05-14 22:43",
+        "onSaleStock": 0,
+        "moneyType": 0,
+        "proPriceBetween":"0-189",
+        "productImg": "/rest/images/product/237cb0ee-b05d-4e6d-ba9b-3533b43dd1b6.png|/rest/images/product/3af2d71e-9cb0-47e1-a975-c38ff1491844.png|/rest/images/product/a45dc534-1aa4-4b95-b1dd-334cfc74d794.png",
+        "productSaleCount": "0",
+        "productViewCount": "0",
+        "customers": [
+        ],
+        "proImgArray": [
+                        {
+                        "productImg": "/rest/images/product/237cb0ee-b05d-4e6d-ba9b-3533b43dd1b6.png",
+                        "proColorId": 1,
+                        "proColorName": "black",
+                        "proSizeArray": [
+                                         {
+                                         "productSizeId": 1,
+                                         "productSizeName": "L",
+                                         "productPrice": "99",
+                                         "productStock": 2
+                                         }
+                                         ]
+                        },
+                        {
+                        "productImg": "/rest/images/product/3af2d71e-9cb0-47e1-a975-c38ff1491844.png",
+                        "proColorId": 2,
+                        "proColorName": "红色",
+                        "proSizeArray": [
+                                         {
+                                         "productSizeId": 1,
+                                         "productSizeName": "L",
+                                         "productPrice": "299",
+                                         "productStock": 21312
+                                         },
+                                         {
+                                         "productSizeId": 5,
+                                         "productSizeName": "XL",
+                                         "productPrice": "99",
+                                         "productStock": 21312
+                                         }
+                                         ]
+                        },
+                        {
+                        "productImg": "/rest/images/product/a45dc534-1aa4-4b95-b1dd-334cfc74d794.png",
+                        "proColorId": 3,
+                        "proColorName": "蓝色",
+                        "proSizeArray": [
+                                         {
+                                         "productSizeId": 2,
+                                         "productSizeName": "LL",
+                                         "productPrice": "180",
+                                         "productStock": 21312
+                                         }
+                                         ]
+                        }
+                        ]
+    }
+}
