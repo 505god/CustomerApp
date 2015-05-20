@@ -38,12 +38,16 @@
     [self.navBarView.rightBtn setHidden:YES];
     [self.view addSubview:self.navBarView];
     
-    [self initContainerView];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
+    if (!self.pagesContainer) {
+        [self initContainerView];
+    }
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {

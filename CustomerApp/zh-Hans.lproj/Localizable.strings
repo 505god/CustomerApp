@@ -13,6 +13,8 @@
 "chatRecodr" = "聊天记录";
 "confirmSelected" = "确认选择?";
 "confirmSelectedPro" = "颜色:%@ 尺码:%@ 数量:%ld";
+"OrderSucess" = "订单已生成";
+"goOrderVC" = "前往订单中心确认";
 
 "MyselfVC" = "我";
 "selectedStore" = "登录成功,选择店铺";

@@ -18,6 +18,9 @@
 #import "WQMessageVC.h"
 
 #import "WQSelectedProObj.h"
+
+#import "BlockAlertView.h"
+
 @interface WQProductDetailVC ()<WQNavBarViewDelegate,UITableViewDataSource, UITableViewDelegate,ImgScrollViewDelegate,WQProHeaderDelegate,WQPropertyVCDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -238,7 +241,14 @@
                     NSDictionary *jsonData=(NSDictionary *)responseObject;
                     
                     if ([[jsonData objectForKey:@"status"]integerValue]==1) {
-                        NSDictionary *aDic = [jsonData objectForKey:@"returnObj"];
+                        
+                        BlockAlertView *alert = [BlockAlertView alertWithTitle:NSLocalizedString(@"notice", @"") message:[NSString stringWithFormat:NSLocalizedString(@"confirmSelectedPro", @""),self.selectedPro.colorName,self.selectedPro.sizeName,self.selectedPro.number]];
+                        [alert setCancelButtonWithTitle:NSLocalizedString(@"Cancel", @"") block:nil];
+                        [alert setDestructiveButtonWithTitle:NSLocalizedString(@"Confirm", @"") block:^{
+                            
+                        }];
+                        [alert show];
+                        
                         
                     }else {
                         [WQPopView showWithImageName:@"picker_alert_sigh" message:[jsonData objectForKey:@"msg"]];

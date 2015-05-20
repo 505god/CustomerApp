@@ -173,13 +173,15 @@
 
 
 //改变输入与录音状态
-- (void)voiceRecord:(UIButton *)sender
-{
+- (void)voiceRecord:(UIButton *)sender {
     self.btnVoiceRecord.hidden = !self.btnVoiceRecord.hidden;
     self.TextViewInput.hidden  = !self.TextViewInput.hidden;
     self.isbeginVoiceRecord = !self.isbeginVoiceRecord;
+    
     if (self.isbeginVoiceRecord) {
         [self.btnChangeVoiceState setBackgroundImage:[UIImage imageNamed:@"chat_ipunt_message"] forState:UIControlStateNormal];
+        [self.delegate beginRecord];
+        
         [self.TextViewInput resignFirstResponder];
     }else{
         [self.btnChangeVoiceState setBackgroundImage:[UIImage imageNamed:@"chat_voice_record"] forState:UIControlStateNormal];
@@ -265,7 +267,11 @@
     self.TextViewInput.scrollEnabled = (numLines >= 3);
     
     if(numLines >= 6) {
-        CGPoint bottomOffset = CGPointMake(0.0f, self.TextViewInput.contentSize.height - self.TextViewInput.bounds.size.height);
+        CGFloat y = self.TextViewInput.contentSize.height - self.TextViewInput.bounds.size.height;
+        if (y<0) {
+            y=6;
+        }
+        CGPoint bottomOffset = CGPointMake(0.0f, y);
         [self.TextViewInput setContentOffset:bottomOffset animated:YES];
     }
 }
