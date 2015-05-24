@@ -6,6 +6,9 @@
   Copyright (c) 2015年 苏州瑞鹏科技有限公司. All rights reserved.
 */
 
+CFBundleDisplayName="买家版";
+
+"proprice" = "单价";
 "SelectedProperty" = "选择商品规格";
 "ContactSeller" = "联系卖家";
 "BuyNow" = "立即购买";
@@ -13,8 +16,7 @@
 "chatRecodr" = "聊天记录";
 "confirmSelected" = "确认选择?";
 "confirmSelectedPro" = "颜色:%@ 尺码:%@ 数量:%ld";
-"OrderSucess" = "订单已生成";
-"goOrderVC" = "前往订单中心确认";
+"OrderSucess" = "订单已生成,可以在订单中心查看";
 
 "MyselfVC" = "我";
 "selectedStore" = "登录成功,选择店铺";
@@ -51,7 +53,7 @@
 "OrderVC" = "订单管理";
 "SaleVC" = "销售统计";
 
-"HotSaleVC" = "热卖展示";
+"HotSaleVC" = "店长推荐";
 "ProductClassifyVC" = "分类列表";
 
 "NewProductVC" = "创建商品";
@@ -141,7 +143,7 @@
 "Add" = "添加";
 "Finish" = "完成";
 "Delete" = "删除";
-"ConfirmDelete" = "确定删除?";
+"ConfirmDelete" = "确定关闭订单?";
 
 "Confirm" = "确定";
 "ShopNameLimit" = "最多10个字";
@@ -152,6 +154,7 @@
 "DeleteCustomer" = "删除客户";
 
 "remindAlert" = "已提醒客户";
+"remindShopAlert" = "已提醒店主";
 
 "ClassDelete" = "该分类下包含子分类不能被删除";
 "ClassBDelete" = "该分类下包含商品不能被删除";
@@ -187,9 +190,20 @@
 "NoneOrder" = "暂无订单";
 
 "orderSearch" = "订单检索";
-"orderDeal" = "待处理";
 "orderPay" = "待付款";
-"orderFinish" = "已完成";
+"DeliveryVC" = "待发货";
+"ReceivingVC" = "待收货";
+"orderFinish" = "已关闭";
+
+"cancelOrder" = "关闭订单";
+"payOrder" = "继续支付";
+"changeOrder" = "修改价格";
+"RemindOrder" = "提醒付款";
+"deliveryOrder" = "确认发货";
+"receiveOrder" = "确认收货";
+"ReminddeliveryOrder" = "提醒发货";
+"totalPrice" = "总价:";
+
 
 "orderChangePrice" = "修改订单价格";
 "orderRemind" = "提醒客户付款";

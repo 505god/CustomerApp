@@ -310,24 +310,16 @@
 }
 
 -(void)forgetBtnClick {
-    WQInfoVC *infoVC = [[WQInfoVC alloc]init];
-    infoVC.type= 1;
-    [self.navigationController pushViewController:infoVC animated:YES];
-    
-//    WQPhoneVC *phoneVC = [[WQPhoneVC alloc]init];
-//    [self.navigationController pushViewController:phoneVC animated:YES];
-//    phoneVC.type=1;
-//    SafeRelease(phoneVC);
+    WQPhoneVC *phoneVC = [[WQPhoneVC alloc]init];
+    [self.navigationController pushViewController:phoneVC animated:YES];
+    phoneVC.type=1;
+    SafeRelease(phoneVC);
 }
 -(void)reginBtnClick {
-    WQInfoVC *infoVC = [[WQInfoVC alloc]init];
-    infoVC.type= 0;
-    [self.navigationController pushViewController:infoVC animated:YES];
-    
-//    WQPhoneVC *phoneVC = [[WQPhoneVC alloc]init];
-//    phoneVC.type=0;
-//    [self.navigationController pushViewController:phoneVC animated:YES];
-//    SafeRelease(phoneVC);
+    WQPhoneVC *phoneVC = [[WQPhoneVC alloc]init];
+    phoneVC.type=0;
+    [self.navigationController pushViewController:phoneVC animated:YES];
+    SafeRelease(phoneVC);
 }
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

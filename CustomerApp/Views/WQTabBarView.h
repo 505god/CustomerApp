@@ -14,6 +14,7 @@
 typedef enum{
     TabBarItemType_hot=0,
     TabBarItemType_class,
+    TabBarItemType_search,
     TabBarItemType_chat,
     TabBarItemType_myself
 }TabBarItemType;
@@ -26,8 +27,10 @@ typedef enum{
 @property (nonatomic, weak) IBOutlet WQTabBarItem *hotItem;
 //分类
 @property (nonatomic, weak) IBOutlet WQTabBarItem *classItem;
-//聊天
-@property (nonatomic, weak) IBOutlet WQTabBarItem *chatItem;
+//搜素
+@property (nonatomic, weak) IBOutlet WQTabBarItem *searchItem;
+//订单
+@property (nonatomic, weak) IBOutlet WQTabBarItem *orderItem;
 //个人中心
 @property (nonatomic, weak) IBOutlet WQTabBarItem *myselfItem;
 

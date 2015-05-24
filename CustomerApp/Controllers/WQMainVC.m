@@ -27,15 +27,15 @@
     [super viewDidLoad];
     
     
+    //设置tabBarView
+    [self.view addSubview:self.tabBarView];
+    self.tabBarView.currentPage = self.currentPage;
+    
     //设置子controller
     self.currentViewController = [self.childenControllerArray objectAtIndex:self.currentPage];
     if (self.currentViewController) {
         [self addOneController:self.currentViewController];
     }
-
-    //设置tabBarView
-    [self.view addSubview:self.tabBarView];
-    self.tabBarView.currentPage = self.currentPage;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(isNewMessage:) name:@"isNewMessage" object:nil];
 }
@@ -91,21 +91,10 @@
     if (self.currentPage != page) {
         [self.tabBarView defaultSelected];
         self.currentPage = page;
-        [self setTitleWithPage];
         [self changeFromController:self.currentViewController toController:[self.childenControllerArray objectAtIndex:self.currentPage]];
     }
 }
-//设置标题
--(void)setTitleWithPage {
-    if (self.currentPage==0) {
-        [self.navBarView setHidden:NO];
-        self.navBarView.titleLab.text = @"";
-        self.navBarView.backgroundColor = [UIColor clearColor];
-        self.navBarView.isShowShadow = NO;
-    }else {
-        [self.navBarView setHidden:YES];
-    }
-}
+
 #pragma mark - 子controller之间切换
 -(void)addOneController:(UIViewController*)childController{
     if (!childController) {
@@ -130,7 +119,6 @@
         
     } completion:^(BOOL finished) {
         self.currentViewController = to;
-        [self setTitleWithPage];
         [self.view bringSubviewToFront:self.tabBarView];
     }];
 }
@@ -140,7 +128,6 @@
 -(void)tabBar:(WQTabBarView*)tabBarView selectedItem:(TabBarItemType)itemType {
     if (itemType < self.childenControllerArray.count) {
         self.currentPage = itemType;
-        
         [self changeFromController:self.currentViewController toController:[self.childenControllerArray objectAtIndex:itemType]];
     }
 }

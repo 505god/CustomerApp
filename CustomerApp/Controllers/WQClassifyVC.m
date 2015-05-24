@@ -18,7 +18,7 @@
 
 #import "WQProductVC.h"
 
-@interface WQClassifyVC ()<WQNavBarViewDelegate,UITableViewDataSource, UITableViewDelegate>
+@interface WQClassifyVC ()<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -42,7 +42,7 @@
 -(void)getClassList {
     __unsafe_unretained typeof(self) weakSelf = self;
     self.interfaceTask = [[WQAPIClient sharedClient] GET:@"/rest/store/classList" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        
+        weakSelf.dataArray = nil;
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             NSDictionary *jsonData=(NSDictionary *)responseObject;
             
@@ -60,24 +60,26 @@
                 }
                 
                 [weakSelf.dataArray addObjectsFromArray:mutablePosts];
-                
-                if (weakSelf.dataArray.count>0) {
-                    [weakSelf.tableView reloadData];
-                    [weakSelf setNoneText:nil animated:NO];
-                }else {
-                    [weakSelf setNoneText:NSLocalizedString(@"NoneClass", @"") animated:YES];
-                }
             }else {
-                [weakSelf setNoneText:NSLocalizedString(@"NoneClass", @"") animated:YES];
                 [WQPopView showWithImageName:@"picker_alert_sigh" message:[jsonData objectForKey:@"msg"]];
             }
         }
+        [weakSelf.tableView reloadData];
+        [weakSelf checkDataArray];
         [weakSelf.tableView headerEndRefreshing];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [weakSelf.tableView headerEndRefreshing];
-        [weakSelf setNoneText:NSLocalizedString(@"NoneClass", @"") animated:YES];
+        [weakSelf checkDataArray];
         [WQPopView showWithImageName:@"picker_alert_sigh" message:NSLocalizedString(@"InterfaceError", @"")];
     }];
+}
+
+-(void)checkDataArray {
+    if (self.dataArray.count==0) {
+        [self setNoneText:NSLocalizedString(@"NoneOrder", @"") animated:YES];
+    }else {
+        [self setNoneText:nil animated:NO];
+    }
 }
 
 #pragma mark - lifestyle
@@ -89,8 +91,6 @@
     [self.navBarView setTitleString:NSLocalizedString(@"ProductClassifyVC", @"")];
     [self.navBarView.rightBtn setHidden:YES];
     [self.navBarView.leftBtn setHidden:YES];
-    self.navBarView.navDelegate = self;
-    self.navBarView.isShowShadow = YES;
     [self.view addSubview:self.navBarView];
     
     //集成刷新控件
@@ -129,7 +129,7 @@
     __unsafe_unretained typeof(self) weakSelf = self;
     
     [self.tableView addHeaderWithCallback:^{
-        weakSelf.dataArray = nil;
+        
         [weakSelf getClassList];
     } dateKey:@"WQClassifyVC"];
 }

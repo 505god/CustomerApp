@@ -13,8 +13,9 @@
 -(void)dealloc {
     SafeRelease(_hotItem);
     SafeRelease(_classItem);
-    SafeRelease(_chatItem);
+    SafeRelease(_orderItem);
     SafeRelease(_myselfItem);
+    SafeRelease(_searchItem);
     SafeRelease(_delegate);
 }
 -(void)defaultSelected{
@@ -24,14 +25,16 @@
 -(void)unSelectedAllItems{
     self.hotItem.isSelected = NO;
     self.classItem.isSelected = NO;
-    self.chatItem.isSelected = NO;
+    self.orderItem.isSelected = NO;
     self.myselfItem.isSelected = NO;
+    self.searchItem.isSelected = NO;
 }
 
 -(void)whiteViewSelected {
     [self.hotItem.whiteView setHidden:NO];
     [self.classItem.whiteView setHidden:NO];
-    [self.chatItem.whiteView setHidden:NO];
+    [self.orderItem.whiteView setHidden:NO];
+    [self.searchItem.whiteView setHidden:NO];
 }
 
 - (IBAction)hotItemClicked:(id)sender {
@@ -51,11 +54,20 @@
         [self.delegate tabBar:self selectedItem:TabBarItemType_class];
     }
 }
+- (IBAction)searchItemClicked:(id)sender {
+    [self unSelectedAllItems];
+    [self whiteViewSelected];
+    self.searchItem.isSelected = YES;
+    [self.classItem.whiteView setHidden:YES];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(tabBar:selectedItem:)]) {
+        [self.delegate tabBar:self selectedItem:TabBarItemType_search];
+    }
+}
 - (IBAction)chatItemClicked:(id)sender {
     [self unSelectedAllItems];
     [self whiteViewSelected];
-    self.chatItem.isSelected = YES;
-    [self.classItem.whiteView setHidden:YES];
+    self.orderItem.isSelected = YES;
+    [self.searchItem.whiteView setHidden:YES];
     if (self.delegate && [self.delegate respondsToSelector:@selector(tabBar:selectedItem:)]) {
         [self.delegate tabBar:self selectedItem:TabBarItemType_chat];
     }
@@ -64,7 +76,7 @@
     [self unSelectedAllItems];
     [self whiteViewSelected];
     self.myselfItem.isSelected = YES;
-    [self.chatItem.whiteView setHidden:YES];
+    [self.orderItem.whiteView setHidden:YES];
     if (self.delegate && [self.delegate respondsToSelector:@selector(tabBar:selectedItem:)]) {
         [self.delegate tabBar:self selectedItem:TabBarItemType_myself];
     }
@@ -75,10 +87,10 @@
     
     self.frame = (CGRect){0,[UIScreen mainScreen].bounds.size.height-NavgationHeight,[UIScreen mainScreen].bounds.size.width,NavgationHeight};
     
-    self.hotItem.frame = (CGRect){0,0,self.width/4,NavgationHeight};
-    self.classItem.frame = (CGRect){self.hotItem.right,0,self.width/4,NavgationHeight};
-    self.chatItem.frame = (CGRect){self.classItem.right,0,self.width/4,NavgationHeight};
-    self.myselfItem.frame = (CGRect){self.chatItem.right,0,self.width/4,NavgationHeight};
+//    self.hotItem.frame = (CGRect){0,0,self.width/4,NavgationHeight};
+//    self.classItem.frame = (CGRect){self.hotItem.right,0,self.width/4,NavgationHeight};
+//    self.orderItem.frame = (CGRect){self.classItem.right,0,self.width/4,NavgationHeight};
+//    self.myselfItem.frame = (CGRect){self.orderItem.right,0,self.width/4,NavgationHeight};
 }
 
 -(void)setCurrentPage:(NSInteger)currentPage {
@@ -94,9 +106,12 @@
             self.classItem.isSelected = YES;
             break;
         case 2:
-            self.chatItem.isSelected = YES;
+            self.searchItem.isSelected = YES;
             break;
         case 3:
+            self.orderItem.isSelected = YES;
+            break;
+        case 4:
             self.myselfItem.isSelected = YES;
             break;
             

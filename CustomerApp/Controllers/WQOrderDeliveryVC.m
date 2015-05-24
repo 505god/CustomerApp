@@ -1,12 +1,12 @@
 //
-//  WQOrderPayVC.m
+//  WQOrderDeliveryVC.m
 //  App
 //
-//  Created by 邱成西 on 15/4/16.
+//  Created by 邱成西 on 15/5/22.
 //  Copyright (c) 2015年 Just Do It. All rights reserved.
 //
 
-#import "WQOrderPayVC.h"
+#import "WQOrderDeliveryVC.h"
 #import "MJRefresh.h"
 #import "WQCustomerOrderObj.h"
 
@@ -17,7 +17,7 @@
 
 static NSInteger showCount = 0;
 
-@interface WQOrderPayVC ()<UITableViewDelegate,UITableViewDataSource,WQCustomerOrderCellDelegate>
+@interface WQOrderDeliveryVC ()<UITableViewDelegate,UITableViewDataSource,WQCustomerOrderCellDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -33,9 +33,11 @@ static NSInteger showCount = 0;
 @property (nonatomic, assign) NSInteger pageCount;
 ///加载更多
 @property (nonatomic, assign) BOOL isLoadingMore;
+
 @end
 
-@implementation WQOrderPayVC
+@implementation WQOrderDeliveryVC
+
 
 -(void)dealloc {
     SafeRelease(_tableView.delegate);
@@ -47,7 +49,7 @@ static NSInteger showCount = 0;
 
 -(void)getOrderList {
     __unsafe_unretained typeof(self) weakSelf = self;
-    self.interfaceTask = [[WQAPIClient sharedClient] GET:@"/rest/order/orderList" parameters:@{@"lastOrderId":[NSNumber numberWithInteger:self.lastOrderId],@"count":[NSNumber numberWithInteger:self.limit],@"orderStatus":@"1"} success:^(NSURLSessionDataTask *task, id responseObject) {
+    self.interfaceTask = [[WQAPIClient sharedClient] GET:@"/rest/order/orderList" parameters:@{@"lastOrderId":[NSNumber numberWithInteger:self.lastOrderId],@"count":[NSNumber numberWithInteger:self.limit],@"orderStatus":@"2"} success:^(NSURLSessionDataTask *task, id responseObject) {
         if (weakSelf.isLoadingMore==NO) {
         weakSelf.dataArray = nil;
         }
@@ -116,8 +118,6 @@ static NSInteger showCount = 0;
     self.limit = 10;
     //集成刷新控件
     [self addHeader];
-    
-    [self.tableView headerBeginRefreshing];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -125,7 +125,7 @@ static NSInteger showCount = 0;
     
     if (showCount>0 && self.isFirstShow) {
         self.isFirstShow = NO;
-        
+        [self.tableView headerBeginRefreshing];
     }
     showCount ++;
 }
@@ -185,7 +185,7 @@ static NSInteger showCount = 0;
         [weakSelf.tableView removeFooter];
         
         [weakSelf getOrderList];
-    } dateKey:@"WQOrderPayVC"];
+    } dateKey:@"WQOrderDeliveryVC"];
 }
 // 添加上拉刷新尾部控件
 - (void)addFooter {
@@ -223,7 +223,7 @@ static NSInteger showCount = 0;
     }
     
     [cell setIndexPath:indexPath];
-    [cell setType:1];
+    [cell setType:2];
     cell.delegate = self;
     if (self.dataArray.count>0) {
         WQCustomerOrderObj *orderObj = (WQCustomerOrderObj *)self.dataArray[indexPath.row];
@@ -232,24 +232,27 @@ static NSInteger showCount = 0;
     return cell;
 }
 
-#pragma mark - 
-//买家删除订单
--(void)cancelOrderWithCell:(WQCustomerOrderCell *)cell orderObj:(WQCustomerOrderObj *)orderObj {
-    BlockAlertView *alert = [BlockAlertView alertWithTitle:@"Alert Title" message:NSLocalizedString(@"ConfirmDelete", @"")];
+#pragma mark -
+//提醒卖家发货
+
+-(void)reminddeliveryOrderWithCell:(WQCustomerOrderCell *)cell orderObj:(WQCustomerOrderObj *)orderObj {
+    
+    UITextField *textField;
+    BlockTextPromptAlertView *alert = [BlockTextPromptAlertView promptWithTitle:NSLocalizedString(@"ReminddeliveryOrder", @"") message:nil textField:&textField type:0 block:^(BlockTextPromptAlertView *alert){
+        [alert.textField resignFirstResponder];
+        return YES;
+    }];
     
     [alert setCancelButtonWithTitle:NSLocalizedString(@"Cancel", @"") block:nil];
     [alert setDestructiveButtonWithTitle:NSLocalizedString(@"Confirm", @"") block:^{
-        [[WQAPIClient sharedClient] POST:@"/rest/order/delOrder" parameters:@{@"orderId":orderObj.orderId} success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        [[WQAPIClient sharedClient] POST:@"/rest/order/noticeOrderShipment" parameters:@{@"orderId":orderObj.orderId,@"message":textField.text} success:^(NSURLSessionDataTask *task, id responseObject) {
             
             if ([responseObject isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *jsonData=(NSDictionary *)responseObject;
                 
                 if ([[jsonData objectForKey:@"status"]integerValue]==1) {
-                    [self.dataArray removeObjectAtIndex:cell.indexPath.row];
-                    if (self.dataArray.count==0) {
-                        [self setNoneText:NSLocalizedString(@"NoneOrder", @"") animated:YES];
-                    }
-                    [self.tableView reloadData];
+                    [WQPopView showWithImageName:@"picker_alert_sigh" message:NSLocalizedString(@"remindShopAlert", @"")];
                 }else {
                     [WQPopView showWithImageName:@"picker_alert_sigh" message:[jsonData objectForKey:@"msg"]];
                 }
@@ -261,7 +264,5 @@ static NSInteger showCount = 0;
     }];
     [alert show];
 }
--(void)payOrderWithCell:(WQCustomerOrderCell *)cell orderObj:(WQCustomerOrderObj *)orderObj {
-    DLog(@"pay");
-}
+
 @end

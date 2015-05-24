@@ -30,7 +30,7 @@
     [super viewDidLoad];
     
     //导航栏
-    [self.navBarView setTitleString:NSLocalizedString(@"ShopName", @"")];
+    [self.navBarView setTitleString:NSLocalizedString(@"nickName", @"")];
     self.navBarView.navDelegate = self;
     [self.navBarView.rightBtn setImage:[UIImage imageNamed:@"saveAct"] forState:UIControlStateNormal];
     [self.navBarView.rightBtn setImage:[UIImage imageNamed:@"saveNor"] forState:UIControlStateHighlighted];

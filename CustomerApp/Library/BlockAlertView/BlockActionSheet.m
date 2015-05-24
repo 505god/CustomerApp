@@ -242,7 +242,7 @@ static UIFont *buttonFont = nil;
 {
     /* Run the button's block */
     UIButton *btn = (UIButton *)sender;
-    int buttonIndex = [btn tag] - 1;
+    NSInteger buttonIndex = [btn tag] - 1;
     [self dismissWithClickedButtonIndex:buttonIndex animated:YES];
 }
 

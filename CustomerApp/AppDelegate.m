@@ -18,6 +18,7 @@
 #import "WQMainVC.h"
 #import "WQHotSaleVC.h"
 #import "WQClassifyVC.h"
+#import "WQSearchVC.h"
 #import "WQOrderVC.h"
 #import "WQMyselfVC.h"
 
@@ -40,7 +41,7 @@
     }else {
         [WQDataShare sharedService].statusHeight = 0;
     }
-    
+
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
         [APService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
@@ -209,16 +210,17 @@
                     WQMainVC *mainVC = [[WQMainVC alloc]init];
                     WQHotSaleVC *hotVC = [[WQHotSaleVC alloc]init];
                     WQClassifyVC *classifyVC = [[WQClassifyVC alloc]init];
+                    WQSearchVC *searchVC = [[WQSearchVC alloc]init];
                     WQOrderVC *orderVC = [[WQOrderVC alloc]init];
                     WQMyselfVC *myselfVC = [[WQMyselfVC alloc]init];
                     
-                    mainVC.childenControllerArray = @[hotVC,classifyVC,orderVC,myselfVC];
+                    mainVC.childenControllerArray = @[hotVC,classifyVC,searchVC,orderVC,myselfVC];
                     
                     [mainVC setCurrentPageVC:0];
                     self.navControl = [[UINavigationController alloc]initWithRootViewController:mainVC];
                     
                     self.window.rootViewController = self.navControl;
-                    SafeRelease(hotVC);SafeRelease(classifyVC);SafeRelease(orderVC);SafeRelease(myselfVC);SafeRelease(mainVC);
+                    SafeRelease(hotVC);SafeRelease(classifyVC);SafeRelease(orderVC);SafeRelease(myselfVC);SafeRelease(mainVC);SafeRelease(searchVC);
                 }
             }];
         }

@@ -151,7 +151,7 @@
 //头像点击
 - (void)btnHeadImageClick:(UIButton *)button{
     if ([self.delegate respondsToSelector:@selector(headImageDidClick:userId:)])  {
-        [self.delegate headImageDidClick:self userId:[NSString stringWithFormat:@"%d",self.messageFrame.customerObj.customerId]];
+        [self.delegate headImageDidClick:self userId:[NSString stringWithFormat:@"%ld",self.messageFrame.customerObj.customerId]];
     }
 }
 

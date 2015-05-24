@@ -149,7 +149,7 @@
 #pragma mark - tableView
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (section==0) {
-        return 150;
+        return 210;
     }
     return 10;
 }
@@ -242,13 +242,13 @@
                     
                     if ([[jsonData objectForKey:@"status"]integerValue]==1) {
                         
-                        BlockAlertView *alert = [BlockAlertView alertWithTitle:NSLocalizedString(@"notice", @"") message:[NSString stringWithFormat:NSLocalizedString(@"confirmSelectedPro", @""),self.selectedPro.colorName,self.selectedPro.sizeName,self.selectedPro.number]];
-                        [alert setCancelButtonWithTitle:NSLocalizedString(@"Cancel", @"") block:nil];
+                        BlockAlertView *alert = [BlockAlertView alertWithTitle:NSLocalizedString(@"notice", @"") message:NSLocalizedString(@"OrderSucess", @"")];
                         [alert setDestructiveButtonWithTitle:NSLocalizedString(@"Confirm", @"") block:^{
                             
                         }];
                         [alert show];
                         
+                        [self.navigationController popViewControllerAnimated:YES];
                         
                     }else {
                         [WQPopView showWithImageName:@"picker_alert_sigh" message:[jsonData objectForKey:@"msg"]];

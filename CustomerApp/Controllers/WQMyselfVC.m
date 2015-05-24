@@ -18,7 +18,7 @@
 #import "BlockAlertView.h"
 #import "WQLocalDB.h"
 
-@interface WQMyselfVC ()<WQNavBarViewDelegate,UITableViewDelegate,UITableViewDataSource,JKImagePickerControllerDelegate,WQEditNameVCDelegate,MBProgressHUDDelegate>
+@interface WQMyselfVC ()<UITableViewDelegate,UITableViewDataSource,JKImagePickerControllerDelegate,WQEditNameVCDelegate,MBProgressHUDDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -36,8 +36,6 @@
     [self.navBarView setTitleString:NSLocalizedString(@"MyselfVC", @"")];
     [self.navBarView.rightBtn setHidden:YES];
     [self.navBarView.leftBtn setHidden:YES];
-    self.navBarView.navDelegate = self;
-    self.navBarView.isShowShadow = YES;
     [self.view addSubview:self.navBarView];
     
     [self.tableView reloadData];
@@ -132,7 +130,7 @@
             [cell.headerImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",Host,[WQDataShare sharedService].userObj.userHead]] placeholderImage:[UIImage imageNamed:@"assets_placeholder_picture"]];
             cell.titleLab.text = NSLocalizedString(@"Header", @"");
         }else if (indexPath.row==1) {
-            cell.titleLab.text = NSLocalizedString(@"ShopName", @"");
+            cell.titleLab.text = NSLocalizedString(@"nickName", @"");
             cell.detailLab.text = [NSString stringWithFormat:@"%@",[WQDataShare sharedService].userObj.userName];
         }
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

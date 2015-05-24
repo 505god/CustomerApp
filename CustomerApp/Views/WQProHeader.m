@@ -32,7 +32,7 @@
      NSArray *imgArray = [imageString componentsSeparatedByString:@"|"];
     self.dataArray = imgArray;
     
-    self.scrollView = [[XLCycleScrollView alloc]initWithFrame:(CGRect){0,0,[UIScreen mainScreen].bounds.size.width,150}];
+    self.scrollView = [[XLCycleScrollView alloc]initWithFrame:(CGRect){0,0,[UIScreen mainScreen].bounds.size.width,200}];
     self.scrollView.delegate = self;
     self.scrollView.datasource = self;
     [self.contentView addSubview:self.scrollView];

@@ -164,15 +164,15 @@
         }
     }
     
-    UILabel *label3 = [[UILabel alloc] initWithFrame:(CGRect){10,y+50,self.view.width-20,20}];
+    UILabel *label3 = [[UILabel alloc] initWithFrame:(CGRect){10,y+10,self.view.width-20,20}];
     label3.text = [NSString stringWithFormat:@"%@",NSLocalizedString(@"selectedProNumber", @"")];
     [label3 sizeToFit];
-    label3.frame = (CGRect){10,y+70,label3.width,20};
+    label3.frame = (CGRect){10,y+50,label3.width,20};
     label3.textColor = [UIColor lightGrayColor];
     label3.font = [UIFont systemFontOfSize:15];
     [self.scrollView addSubview:label3];
     
-    self.stepBtn = [[TextStepperField alloc]initWithFrame:(CGRect){label3.right+10,label3.top-5,155,30}];
+    self.stepBtn = [[TextStepperField alloc]initWithFrame:(CGRect){10,label3.bottom+5,155,30}];
     self.stepBtn.Current = self.selectedPro.number;
     
     if (MAX>0) {
@@ -195,14 +195,13 @@
 
 -(UIButton *)returnButton {
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    btn.layer.borderWidth = 1;
-    
     [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [btn setTitleColor:COLOR(130, 134, 137, 1) forState:UIControlStateHighlighted];
     [btn setTitleColor:COLOR(130, 134, 137, 1) forState:UIControlStateDisabled];
     [btn setTitleColor:COLOR(251, 0, 41, 1) forState:UIControlStateSelected];
-    btn.titleLabel.font = [UIFont systemFontOfSize:17];
+    
+    [btn setBackgroundColor:COLOR(244, 242, 242, 1)];
+    btn.titleLabel.font = [UIFont systemFontOfSize:16];
     btn.layer.cornerRadius = 4;
     btn.layer.masksToBounds = YES;
     return btn;

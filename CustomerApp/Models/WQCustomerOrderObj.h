@@ -26,10 +26,10 @@
 @property (nonatomic, strong) NSString *productColor;
 @property (nonatomic, strong) NSString *productSize;
 @property (nonatomic, strong) NSString *productName;
-@property (nonatomic, strong) NSString *productPrice;
-@property (nonatomic, strong) NSString *productNumber;
+@property (nonatomic, assign) CGFloat productPrice;
+@property (nonatomic, assign) NSInteger productNumber;
 ///产品优惠  0=无  1=折扣  2＝优惠价格
-@property (nonatomic, strong) NSString *productSaleType;
-@property (nonatomic, strong) NSString *productDiscount;
-@property (nonatomic, strong) NSString *productReducePrice;
+@property (nonatomic, assign) NSInteger productSaleType;
+@property (nonatomic, assign) CGFloat productDiscount;
+@property (nonatomic, assign) CGFloat productReducePrice;
 @end

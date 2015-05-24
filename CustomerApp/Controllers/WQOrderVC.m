@@ -9,10 +9,11 @@
 #import "WQOrderVC.h"
 
 #import "DAPagesContainer.h"
-#import "WQOrderDealVC.h"
-#import "WQOrderPayVC.h"
-#import "WQOrderFinishVC.h"
 
+#import "WQOrderPayVC.h"
+#import "WQOrderDeliveryVC.h"
+#import "WQOrderReceivingVC.h"
+#import "WQOrderFinishVC.h"
 
 @interface WQOrderVC ()
 
@@ -31,11 +32,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.isFirstShow = YES;
     //导航栏
     [self.navBarView setTitleString:NSLocalizedString(@"OrderVC", @"")];
-    [self.navBarView.leftBtn setHidden:YES];
     [self.navBarView.rightBtn setHidden:YES];
+    [self.navBarView.leftBtn setHidden:YES];
     [self.view addSubview:self.navBarView];
     
     
@@ -43,9 +44,9 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
-    if (!self.pagesContainer) {
+    if (self.isFirstShow) {
         [self initContainerView];
+        self.isFirstShow= NO;
     }
     
 }
@@ -76,22 +77,25 @@
     [self.view addSubview:self.pagesContainer.view];
     [self.pagesContainer didMoveToParentViewController:self];
     
-    //待处理
-    WQOrderDealVC *dealVC = [[WQOrderDealVC alloc]init];
-    dealVC.title = NSLocalizedString(@"orderDeal", @"");
-    
     //待付款
     WQOrderPayVC *payVC = [[WQOrderPayVC alloc]init];
     payVC.title = NSLocalizedString(@"orderPay", @"");
     
-    //已完成
+    //待发货
+    WQOrderDeliveryVC *deliveryVC = [[WQOrderDeliveryVC alloc]init];
+    deliveryVC.title = NSLocalizedString(@"DeliveryVC",@"");
+    
+    //待收货
+    WQOrderReceivingVC *receivingVC = [[WQOrderReceivingVC alloc]init];
+    receivingVC.title = NSLocalizedString(@"ReceivingVC",@"");
+    
+    //已关闭
     WQOrderFinishVC *finishVC = [[WQOrderFinishVC alloc]init];;
     finishVC.title = NSLocalizedString(@"orderFinish", @"");
     
-    self.pagesContainer.viewControllers = @[dealVC,payVC,finishVC];
-    SafeRelease(dealVC);SafeRelease(payVC);SafeRelease(finishVC);
+    self.pagesContainer.viewControllers = @[payVC,deliveryVC,receivingVC,finishVC];
+    SafeRelease(deliveryVC);SafeRelease(payVC);SafeRelease(finishVC);SafeRelease(receivingVC);
 }
 
-#pragma mark - 导航栏代理
 
 @end
