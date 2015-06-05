@@ -58,7 +58,7 @@
         
         if (![rs next]) {
             [rs close];
-            [self.db executeUpdate:@"CREATE TABLE WQUser (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE ,userId VARCHAR,userName VARCHAR,userHead VARCHAR,userPhone VARCHAR)"];
+            [self.db executeUpdate:@"CREATE TABLE WQUser (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE ,userId VARCHAR,userName VARCHAR,userHead VARCHAR,userPhone VARCHAR,password VARCHAR)"];
         }
         [rs close];
         rs = nil;

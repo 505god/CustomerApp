@@ -110,6 +110,7 @@
 //右侧边栏的代理
 -(void)rightBtnClickByNavBarView:(WQNavBarView *)navView {
     
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.interfaceTask = [[WQAPIClient sharedClient] POST:@"/rest/store/updateStoreName" parameters:@{@"storeName":self.nameTxt.text} success:^(NSURLSessionDataTask *task, id responseObject) {
         
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
@@ -123,9 +124,10 @@
                 [WQPopView showWithImageName:@"picker_alert_sigh" message:[jsonData objectForKey:@"msg"]];
             }
         }
-        
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [WQPopView showWithImageName:@"picker_alert_sigh" message:NSLocalizedString(@"InterfaceError", @"")];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }];
 }
 

@@ -7,7 +7,8 @@
 //
 
 #import "BaseViewController.h"
+#import "PayPalMobile.h"
 
-@interface WQOrderPayVC : BaseViewController
+@interface WQOrderPayVC : BaseViewController<PayPalPaymentDelegate>
 
 @end

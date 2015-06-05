@@ -19,13 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CustomerApp/Controllers/WQProductDetailVC.m"
-            timestampString = "454121991.559668"
+            filePath = "CustomerApp/AppDelegate.m"
+            timestampString = "455118846.571925"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "258"
-            endingLineNumber = "258"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
+            landmarkName = "-application:didReceiveRemoteNotification:fetchCompletionHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -35,13 +35,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CustomerApp/Controllers/WQOrderPayVC.m"
-            timestampString = "454141608.878784"
+            filePath = "CustomerApp/AppDelegate.m"
+            timestampString = "455119890.642849"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "244"
-            endingLineNumber = "244"
-            landmarkName = "-cancelOrderWithCell:orderObj:"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
+            landmarkName = "-application:didReceiveRemoteNotification:fetchCompletionHandler:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CustomerApp/Controllers/WQLogVC.m"
+            timestampString = "455122101.525846"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "302"
+            endingLineNumber = "302"
+            landmarkName = "-loginBtnClick"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

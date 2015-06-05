@@ -17,4 +17,5 @@
 @property (nonatomic, strong) NSString *userHead;
 @property (nonatomic, strong) NSString *userPhone;
 
+@property (nonatomic, strong) NSString *password;
 @end

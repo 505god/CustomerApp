@@ -26,6 +26,8 @@
 
 @property (nonatomic, strong) MBProgressHUD *hud;
 
+@property (nonatomic, strong) NSString *headerImgString;
+
 @end
 
 @implementation WQInfoVC
@@ -183,7 +185,7 @@
             [WQPopView showWithImageName:@"picker_alert_sigh" message:msg];
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         }else {
-            [self resignUserWithHeader:@""];
+            [self resignUser];
         }
         
     }else {
@@ -197,7 +199,23 @@
             [WQPopView showWithImageName:@"picker_alert_sigh" message:msg];
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         }else {
-            
+            self.interfaceTask = [[WQAPIClient sharedClient] POST:@"/rest/login/resetUserPassword" parameters:@{@"userPhone":self.phoneNumber,@"userPassword":self.passwordText.text} success:^(NSURLSessionDataTask *task, id responseObject) {
+                
+                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                    NSDictionary *jsonData=(NSDictionary *)responseObject;
+                    
+                    if ([[jsonData objectForKey:@"status"]integerValue]==1) {
+                        [self.appDel showRootVC];
+                    }else {
+                        [WQPopView showWithImageName:@"picker_alert_sigh" message:[jsonData objectForKey:@"msg"]];
+                    }
+                }
+                
+            } failure:^(NSURLSessionDataTask *task, NSError *error) {
+                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                [WQPopView showWithImageName:@"picker_alert_sigh" message:NSLocalizedString(@"InterfaceError", @"")];
+            }];
         }
     }
 }
@@ -290,6 +308,8 @@
     [imagePicker dismissViewControllerAnimated:YES completion:^{
         [MBProgressHUD hideAllHUDsForView:weakSelf.view animated:YES];
         weakSelf.headerImageView.image = image;
+        
+        [weakSelf saveShopHeaderWithImg:image];
     }];
 }
 - (void)imagePickerControllerDidCancel:(JKImagePickerController *)imagePicker {
@@ -299,7 +319,7 @@
 
 -(void)saveShopHeaderWithImg:(UIImage *)image {
     self.hud.mode = MBProgressHUDModeDeterminate;
-    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"https://barryhippo.xicp.net:8443/rest/img/uploadHeader" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"https://120.24.64.85:8443/rest/login/uploadHeader" parameters:@{@"userPhone":self.phoneNumber} constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:UIImageJPEGRepresentation(image, 1)  name:@"imgFile" fileName:@"imgFile.jpeg" mimeType:@"image/jpeg"];
     } error:nil];
     
@@ -319,9 +339,8 @@
                 
                 if ([[jsonData objectForKey:@"status"]integerValue]==1) {
                     NSDictionary *aDic = (NSDictionary *)[jsonData objectForKey:@"returnObj"];
-                    [self.hud show:YES];
                     
-                    [self resignUserWithHeader:[aDic objectForKey:@"img"]];
+                    self.headerImgString = [aDic objectForKey:@"img"];
                 }else {
                     [WQPopView showWithImageName:@"picker_alert_sigh" message:[jsonData objectForKey:@"msg"]];
                     
@@ -350,9 +369,8 @@
 }
 
 
-
--(void)resignUserWithHeader:(NSString *)header {
-    self.interfaceTask = [[WQAPIClient sharedClient] POST:@"/rest/login/shopUserRegister" parameters:@{@"userPhone":@"18915410342",@"userPassword":self.passwordText.text,@"userName":self.nameText.text,@"registerCode":self.codeText.text} success:^(NSURLSessionDataTask *task, id responseObject) {
+-(void)resignUser{
+    self.interfaceTask = [[WQAPIClient sharedClient] POST:@"/rest/login/shopUserRegister" parameters:@{@"userPhone":self.phoneNumber,@"userPassword":self.passwordText.text,@"userName":self.nameText.text,@"registerCode":self.codeText.text,@"headerImg":self.headerImgString} success:^(NSURLSessionDataTask *task, id responseObject) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
@@ -370,4 +388,7 @@
         [WQPopView showWithImageName:@"picker_alert_sigh" message:NSLocalizedString(@"InterfaceError", @"")];
     }];
 }
+
+
+
 @end

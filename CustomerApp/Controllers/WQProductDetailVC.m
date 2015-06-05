@@ -21,6 +21,8 @@
 
 #import "BlockAlertView.h"
 
+
+
 @interface WQProductDetailVC ()<WQNavBarViewDelegate,UITableViewDataSource, UITableViewDelegate,ImgScrollViewDelegate,WQProHeaderDelegate,WQPropertyVCDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -35,7 +37,10 @@
 @property (nonatomic, strong) UIPageControl *pageControl;
 
 @property (nonatomic, strong) WQSelectedProObj *selectedPro;
+
+
 @end
+
 
 @implementation WQProductDetailVC
 
@@ -60,6 +65,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+    
     //导航栏
     [self.navBarView setTitleString:NSLocalizedString(@"ProductDetails", @"")];
     [self.navBarView.rightBtn setHidden:YES];
@@ -72,6 +79,8 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {

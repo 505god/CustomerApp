@@ -99,10 +99,8 @@
 -(void)checkDataArray {
     if (self.dataArray.count==0) {
         [self setNoneText:NSLocalizedString(@"NoneProducts", @"") animated:YES];
-        [self setToolImage:@"" text:NSLocalizedString(@"NewProductVC", @"") animated:YES];
     }else {
         [self setNoneText:nil animated:NO];
-        [self setToolImage:@"" text:NSLocalizedString(@"NewProductVC", @"") animated:NO];
     }
 }
 #pragma mark - lifestyle

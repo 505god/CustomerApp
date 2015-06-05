@@ -10,8 +10,11 @@
 
 #import "WQProductObj.h"
 
+
+
 @interface WQProductDetailVC : BaseViewController
 
 @property (nonatomic, strong) WQProductObj *productObj;
+
 
 @end

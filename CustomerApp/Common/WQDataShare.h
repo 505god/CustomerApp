@@ -34,4 +34,6 @@
 + (WQDataShare *)sharedService;
 
 
+///红点
+@property (nonatomic, assign) BOOL myselfPoint;//第4个item  我
 @end

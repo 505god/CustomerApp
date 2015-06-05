@@ -14,6 +14,7 @@
 #import "WQOrderDeliveryVC.h"
 #import "WQOrderReceivingVC.h"
 #import "WQOrderFinishVC.h"
+#import "WQOrderDealVC.h"
 
 @interface WQOrderVC ()
 
@@ -81,6 +82,10 @@
     WQOrderPayVC *payVC = [[WQOrderPayVC alloc]init];
     payVC.title = NSLocalizedString(@"orderPay", @"");
     
+    //待处理
+    WQOrderDealVC *dealVC = [[WQOrderDealVC alloc]init];
+    dealVC.title = NSLocalizedString(@"orderDealVC", @"");
+    
     //待发货
     WQOrderDeliveryVC *deliveryVC = [[WQOrderDeliveryVC alloc]init];
     deliveryVC.title = NSLocalizedString(@"DeliveryVC",@"");
@@ -93,8 +98,8 @@
     WQOrderFinishVC *finishVC = [[WQOrderFinishVC alloc]init];;
     finishVC.title = NSLocalizedString(@"orderFinish", @"");
     
-    self.pagesContainer.viewControllers = @[payVC,deliveryVC,receivingVC,finishVC];
-    SafeRelease(deliveryVC);SafeRelease(payVC);SafeRelease(finishVC);SafeRelease(receivingVC);
+    self.pagesContainer.viewControllers = @[payVC,dealVC,deliveryVC,receivingVC,finishVC];
+    SafeRelease(deliveryVC);SafeRelease(payVC);SafeRelease(finishVC);SafeRelease(receivingVC);SafeRelease(dealVC);
 }
 
 

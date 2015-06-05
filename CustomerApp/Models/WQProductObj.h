@@ -15,6 +15,7 @@
 //----------------------第一页展示
 ///商品id
 @property (nonatomic, assign) NSInteger proId;
+
 ///商品图片
 @property (nonatomic, strong) NSString *proImage;
 ///商品名称

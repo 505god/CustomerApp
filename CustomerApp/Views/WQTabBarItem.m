@@ -55,7 +55,7 @@
     
     self.logoImg.frame = (CGRect){(self.width-self.logoImg.width)/2,(self.height-self.logoImg.height)/2,self.logoImg.width,self.logoImg.height};
     
-    [self.notificationHub setCircleAtFrame:(CGRect){self.logoImg.right-10,self.logoImg.top-10,15,15}];
+    [self.notificationHub setCircleAtFrame:(CGRect){self.logoImg.right-5,self.logoImg.top-5,10,10}];
 }
 
 #pragma mark property

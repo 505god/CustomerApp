@@ -8,9 +8,9 @@
 
 #import "WQMainRightCell.h"
 #import "WQCellSelectedBackground.h"
-
+#import "RKNotificationHub.h"
 @interface WQMainRightCell ()
-
+@property (nonatomic, strong) RKNotificationHub *notificationHub;
 
 @end
 
@@ -21,6 +21,7 @@
     SafeRelease(_titleLab);
     SafeRelease(_detailLab);
     SafeRelease(_lineView);
+    SafeRelease(_notificationHub);
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -60,6 +61,9 @@
         NSMutableArray *colors = [NSMutableArray array];
         [colors addObject:(id)[[UIColor colorWithRed:220/255. green:220/255. blue:220/255. alpha:1] CGColor]];
         [self setSelectedBackgroundViewGradientColors:colors];
+        
+        self.notificationHub = [[RKNotificationHub alloc]initWithView:self];
+        [self.notificationHub setCount:-1];
     }
     return self;
 }
@@ -78,7 +82,8 @@
     
     self.contentView.frame = (CGRect){0,0,self.width,self.height};
     
-    self.titleLab.frame = (CGRect){10,(self.contentView.height-20)/2,120,20};
+    [self.titleLab sizeToFit];
+    self.titleLab.frame = (CGRect){10,(self.contentView.height-20)/2,self.titleLab.width,20};
     
     self.detailLab.frame = (CGRect){self.titleLab.right,self.titleLab.top,self.contentView.width-self.titleLab.right-32,20};
     
@@ -87,8 +92,19 @@
     self.headerImageView.frame = (CGRect){self.contentView.width-32-60,5,60,60};
     
     self.textLabel.frame = (CGRect){0,0,self.contentView.width,self.contentView.height};
+    
+    [self.notificationHub setCircleAtFrame:(CGRect){self.titleLab.right,self.titleLab.top-5,10,10}];
 }
 
-
+-(void)setIsRedPoint:(BOOL)isRedPoint {
+    _isRedPoint = isRedPoint;
+    
+    if (isRedPoint) {
+        [self.notificationHub setCount:0];
+        [self.notificationHub bump];
+    }else {
+        [self.notificationHub setCount:-1];
+    }
+}
 
 @end

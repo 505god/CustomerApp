@@ -22,4 +22,7 @@
 
 //头像链接
 -(void)setHeaderImageViewImage:(NSString *)header;
+
+
+@property (nonatomic, assign) BOOL isRedPoint;
 @end

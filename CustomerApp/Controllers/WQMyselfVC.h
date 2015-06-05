@@ -8,6 +8,7 @@
 
 #import "BaseViewController.h"
 
-@interface WQMyselfVC : BaseViewController
+#import "PayPalMobile.h"
+@interface WQMyselfVC : BaseViewController<PayPalProfileSharingDelegate>
 
 @end

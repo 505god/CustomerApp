@@ -44,6 +44,15 @@
     [super viewWillAppear:animated];
     
     [self.navigationController setNavigationBarHidden:YES animated:YES];
+    
+    if ([WQDataShare sharedService].messageArray.count>0) {
+        [self.tabBarView.myselfItem.notificationHub setCount:0];
+        [self.tabBarView.myselfItem.notificationHub bump];
+        [WQDataShare sharedService].myselfPoint = YES;
+    }else {
+        [self.tabBarView.myselfItem.notificationHub setCount:-1];
+        [WQDataShare sharedService].myselfPoint = NO;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -52,8 +61,6 @@
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"isNewMessage" object:nil];
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
@@ -134,16 +141,22 @@
 
 #pragma mark 通知
 ////消息
--(void)isNewMessage:(NSNotification *)notification
-{
+-(void)isNewMessage:(NSNotification *)notification {
     NSInteger isNewMessage = [[notification object] integerValue];
     
     if (isNewMessage==1) {
+        [WQDataShare sharedService].myselfPoint = YES;
         [self.tabBarView.myselfItem.notificationHub setCount:0];
         [self.tabBarView.myselfItem.notificationHub bump];
+        
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"newMessage" object:@"1"];
     }else {
         [self.tabBarView.myselfItem.notificationHub setCount:-1];
+        
+        [WQDataShare sharedService].myselfPoint = NO;
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"newMessage" object:@"0"];
     }
+    
 }
 
 @end

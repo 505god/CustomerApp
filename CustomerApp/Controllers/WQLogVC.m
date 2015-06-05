@@ -230,7 +230,7 @@
             self.interfaceTask = [[WQAPIClient sharedClient] POST:@"/rest/login/customerLogin" parameters:@{@"userPhone":self.userText.text,@"userPassword":self.passwordText.text,@"validateCode":self.codeText.text} success:^(NSURLSessionDataTask *task, id responseObject) {
                 [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                 
-                NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"https://barryhippo.xicp.net:8443/rest/login/customerLogin"]];
+                NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"https://120.24.64.85:8443/rest/login/customerLogin"]];
                 NSData *data = [NSKeyedArchiver archivedDataWithRootObject:cookies];
                 [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"sessionCookies"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
@@ -245,6 +245,7 @@
                         
                         WQUserObj *userObj = [[WQUserObj alloc]init];
                         [userObj mts_setValuesForKeysWithDictionary:dic];
+                        userObj.password = self.passwordText.text;
                         [WQDataShare sharedService].userObj = userObj;
                         
                         

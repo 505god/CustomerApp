@@ -15,6 +15,8 @@
 #import "BlockAlertView.h"
 #import "BlockTextPromptAlertView.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 static NSInteger showCount = 0;
 
 @interface WQOrderPayVC ()<UITableViewDelegate,UITableViewDataSource,WQCustomerOrderCellDelegate>
@@ -33,6 +35,8 @@ static NSInteger showCount = 0;
 @property (nonatomic, assign) NSInteger pageCount;
 ///加载更多
 @property (nonatomic, assign) BOOL isLoadingMore;
+
+@property(nonatomic, strong, readwrite) PayPalConfiguration *payPalConfig;
 @end
 
 @implementation WQOrderPayVC
@@ -42,6 +46,7 @@ static NSInteger showCount = 0;
     SafeRelease(_tableView.dataSource);
     SafeRelease(_tableView);
     SafeRelease(_dataArray);
+    SafeRelease(_payPalConfig);
 }
 #pragma mark - 获取订单列表
 
@@ -112,6 +117,17 @@ static NSInteger showCount = 0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.payPalConfig = [[PayPalConfiguration alloc] init];
+    self.payPalConfig.acceptCreditCards = YES;
+    self.payPalConfig.merchantName = [WQDataShare sharedService].storeObj.storeName;
+    //公司的隐私政策
+    self.payPalConfig.merchantPrivacyPolicyURL = [NSURL URLWithString:@"https://www.paypal.com/webapps/mpp/ua/privacy-full"];
+    //公司的用户协议
+    self.payPalConfig.merchantUserAgreementURL = [NSURL URLWithString:@"https://www.paypal.com/webapps/mpp/ua/useragreement-full"];
+    self.payPalConfig.payPalShippingAddressOption = PayPalShippingAddressOptionNone;
+    [PayPalMobile preconnectWithEnvironment:PayPalEnvironmentSandbox];
+    self.payPalConfig.languageOrLocale = [NSLocale preferredLanguages][0];
+    
     self.isFirstShow = YES;
     self.limit = 10;
     //集成刷新控件
@@ -128,6 +144,7 @@ static NSInteger showCount = 0;
         
     }
     showCount ++;
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -261,7 +278,87 @@ static NSInteger showCount = 0;
     }];
     [alert show];
 }
+
+-(NSString *)returnCurrentyOrderObj:(WQCustomerOrderObj *)orderObj {
+    NSString *str = @"USD";
+    
+    if (orderObj.productMoneyType==1) {
+    }else if (orderObj.productMoneyType==2) {
+        str = @"EUR";
+    }else {
+        [WQPopView showWithImageName:@"picker_alert_sigh" message:NSLocalizedString(@"cionPayError", @"")];
+        return nil;
+    }
+    
+    return str;
+}
+
+static NSIndexPath *tempIndexPath = nil;
+
 -(void)payOrderWithCell:(WQCustomerOrderCell *)cell orderObj:(WQCustomerOrderObj *)orderObj {
-    DLog(@"pay");
+    
+    tempIndexPath = cell.indexPath;
+    
+    NSString *coin = [self returnCurrentyOrderObj:orderObj];
+    if (![Utility checkString:coin]) {
+        return;
+    }
+    
+    PayPalItem *item1 = [PayPalItem itemWithName:orderObj.productName
+                                    withQuantity:orderObj.productNumber
+                                       withPrice:[NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.2f",orderObj.productPrice-orderObj.productReducePrice]]
+                                    withCurrency:coin
+                                         withSku:orderObj.orderId];
+    NSArray *items = @[item1];
+    
+    PayPalPayment *payment = [[PayPalPayment alloc] init];
+    payment.amount = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%.2f",orderObj.orderPrice]];
+    payment.currencyCode = coin;
+    payment.shortDescription = orderObj.productName;
+    payment.items = items;
+    payment.paymentDetails = nil;
+    
+    if (!payment.processable) {
+        return;
+    }
+    
+    // Update payPalConfig re accepting credit cards.
+    self.payPalConfig.acceptCreditCards = YES;
+    
+    __block PayPalPaymentViewController *paymentViewController = [[PayPalPaymentViewController alloc] initWithPayment:payment configuration:self.payPalConfig delegate:self];
+    [self.view.window.rootViewController presentViewController:paymentViewController animated:YES completion:^{
+        SafeRelease(paymentViewController);
+    }];
+}
+
+#pragma mark PayPalPaymentDelegate methods
+
+- (void)payPalPaymentViewController:(PayPalPaymentViewController *)paymentViewController didCompletePayment:(PayPalPayment *)completedPayment {
+    [paymentViewController dismissViewControllerAnimated:YES completion:^{
+        
+        [self postToServer];
+    }];
+}
+
+
+- (void)payPalPaymentDidCancel:(PayPalPaymentViewController *)paymentViewController {
+    [paymentViewController dismissViewControllerAnimated:YES completion:nil];
+    tempIndexPath = nil;
+}
+
+-(void)postToServer {
+     WQCustomerOrderObj *orderObj = (WQCustomerOrderObj *)self.dataArray[tempIndexPath.row];
+    
+    [[WQAPIClient sharedClient] POST:@"/rest/order/orderPay" parameters:@{@"orderId":orderObj.orderId} success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        [self.dataArray removeObjectAtIndex:tempIndexPath.row];
+        
+        [self.tableView beginUpdates];
+        [self.tableView deleteRowsAtIndexPaths:@[tempIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView endUpdates];
+        
+        tempIndexPath = nil;
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+    }];
 }
 @end

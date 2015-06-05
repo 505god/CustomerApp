@@ -23,26 +23,49 @@
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) MBProgressHUD *hud;
+
+@property (nonatomic, assign) BOOL isNewMessage;
+
+@property(nonatomic, strong, readwrite) PayPalConfiguration *payPalConfig;
 @end
 
 @implementation WQMyselfVC
+
+-(void)dealloc {
+    SafeRelease(_tableView.delegate);
+    SafeRelease(_tableView);
+    SafeRelease(_hud);
+    SafeRelease(_payPalConfig);
+    
+}
 
 #pragma mark - lifestyle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.payPalConfig = [[PayPalConfiguration alloc] init];
+    self.payPalConfig.merchantName = [WQDataShare sharedService].storeObj.storeName;
+    self.payPalConfig.merchantPrivacyPolicyURL = [NSURL URLWithString:@"https://www.paypal.com/webapps/mpp/ua/privacy-full"];
+    self.payPalConfig.merchantUserAgreementURL = [NSURL URLWithString:@"https://www.paypal.com/webapps/mpp/ua/useragreement-full"];
+    self.payPalConfig.payPalShippingAddressOption = PayPalShippingAddressOptionNone;
+    [PayPalMobile preconnectWithEnvironment:PayPalEnvironmentSandbox];
+    self.payPalConfig.languageOrLocale = [NSLocale preferredLanguages][0];
+    
     //导航栏
     [self.navBarView setTitleString:NSLocalizedString(@"MyselfVC", @"")];
     [self.navBarView.rightBtn setHidden:YES];
     [self.navBarView.leftBtn setHidden:YES];
     [self.view addSubview:self.navBarView];
-    
-    [self.tableView reloadData];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newMessage:) name:@"newMessage" object:nil];
+    
+    self.isNewMessage = [WQDataShare sharedService].myselfPoint;
+    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -55,6 +78,8 @@
     [WQAPIClient cancelConnection];
     [self.interfaceTask cancel];
     self.interfaceTask = nil;
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"newMessage" object:nil];
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
@@ -140,7 +165,15 @@
     }else if (indexPath.section==2){
         cell.titleLab.text = NSLocalizedString(@"chatRecodr", @"");
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }else if (indexPath.section==3){
+        
+        [cell setIsRedPoint:self.isNewMessage];
+        
+    }
+//    else if (indexPath.section==3){
+//        cell.titleLab.text = NSLocalizedString(@"paypalAuthorization", @"");
+//        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//    }
+    else if (indexPath.section==3){
         cell.textLabel.backgroundColor = [UIColor clearColor];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
         cell.textLabel.text = NSLocalizedString(@"LogOut", @"");
@@ -174,10 +207,25 @@
         [self.navigationController pushViewController:orderVC animated:YES];
         SafeRelease(orderVC);
     }else if (indexPath.section==2) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"isNewMessage" object:@"-1" userInfo:nil];
+        
+        if ([[WQDataShare sharedService].messageArray containsObject:[NSString stringWithFormat:@"%ld",[WQDataShare sharedService].storeObj.storeId]]) {
+            [[WQDataShare sharedService].messageArray removeObject:[NSString stringWithFormat:@"%ld",[WQDataShare sharedService].storeObj.storeId]];
+        }
+        
         WQMessageVC *messageVC = [[WQMessageVC alloc]init];
         [self.navigationController pushViewController:messageVC animated:YES];
         SafeRelease(messageVC);
-    }else if (indexPath.section==3) {
+    }
+//    else if (indexPath.section==3) {
+//        NSSet *scopeValues = [NSSet setWithArray:@[kPayPalOAuth2ScopeOpenId, kPayPalOAuth2ScopeEmail, kPayPalOAuth2ScopeAddress, kPayPalOAuth2ScopePhone]];
+//        
+//        __block PayPalProfileSharingViewController *profileSharingPaymentViewController = [[PayPalProfileSharingViewController alloc] initWithScopeValues:scopeValues configuration:self.payPalConfig delegate:self];
+//        [self.view.window.rootViewController presentViewController:profileSharingPaymentViewController animated:YES completion:^{
+//            SafeRelease(profileSharingPaymentViewController);
+//        }];
+//    }
+    else if (indexPath.section==3) {
         BlockAlertView *alert = [BlockAlertView alertWithTitle:@"Alert Title" message:NSLocalizedString(@"confirmLogOut", @"")];
         
         [alert setCancelButtonWithTitle:NSLocalizedString(@"Cancel", @"") block:nil];
@@ -265,7 +313,7 @@
 -(void)saveShopHeaderWithImg:(UIImage *)image {
     self.hud.mode = MBProgressHUDModeDeterminate;
     
-    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"https://barryhippo.xicp.net:8443/rest/img/uploadHeader" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"https://120.24.64.85:8443/rest/img/uploadHeader" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:UIImageJPEGRepresentation(image, 1)  name:@"imgFile" fileName:@"imgFile.jpeg" mimeType:@"image/jpeg"];
     } error:nil];
     
@@ -320,5 +368,33 @@
         
     }
 }
+
+-(void)newMessage:(NSNotification *)notification  {
+    self.isNewMessage = [[notification object] boolValue];
+    
+    [self.tableView reloadData];
+}
+
+
+#pragma mark PayPalProfileSharingDelegate methods
+
+- (void)payPalProfileSharingViewController:(PayPalProfileSharingViewController *)profileSharingViewController
+             userDidLogInWithAuthorization:(NSDictionary *)profileSharingAuthorization {
+    
+    [profileSharingViewController dismissViewControllerAnimated:YES completion:^{
+        [self sendProfileSharingAuthorizationToServer:profileSharingAuthorization];
+    }];
+}
+
+- (void)userDidCancelPayPalProfileSharingViewController:(PayPalProfileSharingViewController *)profileSharingViewController {
+    [profileSharingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)sendProfileSharingAuthorizationToServer:(NSDictionary *)authorization {
+    // TODO: Send authorization to server
+    NSLog(@"Here is your authorization:\n\n%@\n\nSend this to your server to complete profile sharing setup.", authorization);
+}
+
+
 
 @end

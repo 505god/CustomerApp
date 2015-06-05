@@ -369,8 +369,7 @@ forHTTPHeaderField:(NSString *)field
             [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
         }
     }
-    //[APService registrationID]
-    [mutableRequest setValue:@"sssss" forHTTPHeaderField:@"registractionid"];
+    [mutableRequest setValue:[APService registrationID] forHTTPHeaderField:@"registractionid"];
     
     for (NSString *keyPath in AFHTTPRequestSerializerObservedKeyPaths()) {
         if ([self.mutableObservedChangedKeyPaths containsObject:keyPath]) {
