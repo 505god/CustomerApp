@@ -55,4 +55,6 @@ typedef enum{
 +(void)showImage:(UIImageView*)avatarImageView;
 
 +(NSString *)returnMoneyWithType:(NSInteger)type;
+
++(void)checkAlert;
 @end

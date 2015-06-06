@@ -19,7 +19,7 @@
 #import "WQInfoVC.h"
 
 #import "BlockActionSheet.h"
-#import "BlockAlertView.h"
+
 @interface WQLogVC ()<UITextFieldDelegate,WQTapImgDelegate>
 
 //用户名、帐号
@@ -270,12 +270,14 @@
                                         [self.appDel showRootVC];
                                     }];
                                 }else {
+                                    [Utility checkAlert];
+                                    
                                     BlockActionSheet *sheet = [[BlockActionSheet alloc]initWithTitle:NSLocalizedString(@"selectedStore", @"")];
                                     
                                     for (int i=0; i<self.storeArray.count; i++) {
                                         WQStoreObj *storeObj = (WQStoreObj *)self.storeArray[i];
                                         [sheet addButtonWithTitle:storeObj.storeName block:^{
-                                            
+                                            [[WQDataShare sharedService].alertArray removeAllObjects];
                                             [[WQAPIClient sharedClient] POST:@"/rest/store/choseStore" parameters:@{@"storeId":[NSNumber numberWithInteger:[WQDataShare sharedService].storeObj.storeId]} success:^(NSURLSessionDataTask *task, id responseObject) {
                                                 [WQDataShare sharedService].storeObj = storeObj;
                                                 [[WQLocalDB sharedWQLocalDB] saveStroeDataToLocal:[WQDataShare sharedService].storeObj completeBlock:^(BOOL finished) {
@@ -285,10 +287,12 @@
                                             }];
                                         }];
                                     }
-                                    [sheet setCancelButtonWithTitle:NSLocalizedString(@"Cancel", @"") block:^{
-                                        
-                                    }];
+//                                    [sheet setCancelButtonWithTitle:NSLocalizedString(@"Cancel", @"") block:^{
+//                                        [[WQDataShare sharedService].alertArray removeAllObjects];
+//                                    }];
                                     [sheet showInView:self.view];
+                                    
+                                    [[WQDataShare sharedService].alertArray addObject:sheet];
                                 }
                             }
                         }]; 

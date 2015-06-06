@@ -250,12 +250,13 @@
                     NSDictionary *jsonData=(NSDictionary *)responseObject;
                     
                     if ([[jsonData objectForKey:@"status"]integerValue]==1) {
-                        
+                        [Utility checkAlert];
                         BlockAlertView *alert = [BlockAlertView alertWithTitle:NSLocalizedString(@"notice", @"") message:NSLocalizedString(@"OrderSucess", @"")];
                         [alert setDestructiveButtonWithTitle:NSLocalizedString(@"Confirm", @"") block:^{
-                            
+                            [[WQDataShare sharedService].alertArray removeAllObjects];
                         }];
                         [alert show];
+                        [[WQDataShare sharedService].alertArray addObject:alert];
                         
                         [self.navigationController popViewControllerAnimated:YES];
                         

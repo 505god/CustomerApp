@@ -45,15 +45,20 @@
 }
 
 -(void)rightBtnClickByNavBarView:(WQNavBarView *)navView {
+    [Utility checkAlert];
     BlockAlertView *alert = [BlockAlertView alertWithTitle:NSLocalizedString(@"confirmSelected", @"") message:[NSString stringWithFormat:NSLocalizedString(@"confirmSelectedPro", @""),self.selectedPro.colorName,self.selectedPro.sizeName,self.selectedPro.number]];
-    [alert setCancelButtonWithTitle:NSLocalizedString(@"Cancel", @"") block:nil];
+    [alert setCancelButtonWithTitle:NSLocalizedString(@"Cancel", @"") block:^{
+        [[WQDataShare sharedService].alertArray removeAllObjects];
+    }];
     [alert setDestructiveButtonWithTitle:NSLocalizedString(@"Confirm", @"") block:^{
+        [[WQDataShare sharedService].alertArray removeAllObjects];
         if (self.delegate && [self.delegate respondsToSelector:@selector(selectedProProperty:)]) {
             [self.delegate selectedProProperty:self.selectedPro];
             [self.navigationController popViewControllerAnimated:YES];
         }
     }];
     [alert show];
+    [[WQDataShare sharedService].alertArray addObject:alert];
 }
 
 -(void)setViewData {

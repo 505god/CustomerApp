@@ -13,7 +13,6 @@
 #import "WQCustomerOrderCell.h"
 
 #import "BlockAlertView.h"
-#import "BlockTextPromptAlertView.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -252,10 +251,16 @@ static NSInteger showCount = 0;
 #pragma mark - 
 //买家删除订单
 -(void)cancelOrderWithCell:(WQCustomerOrderCell *)cell orderObj:(WQCustomerOrderObj *)orderObj {
+    
+    [Utility checkAlert];
+    
     BlockAlertView *alert = [BlockAlertView alertWithTitle:@"Alert Title" message:NSLocalizedString(@"ConfirmDelete", @"")];
     
-    [alert setCancelButtonWithTitle:NSLocalizedString(@"Cancel", @"") block:nil];
+    [alert setCancelButtonWithTitle:NSLocalizedString(@"Cancel", @"") block:^{
+        [[WQDataShare sharedService].alertArray removeAllObjects];
+    }];
     [alert setDestructiveButtonWithTitle:NSLocalizedString(@"Confirm", @"") block:^{
+        [[WQDataShare sharedService].alertArray removeAllObjects];
         [[WQAPIClient sharedClient] POST:@"/rest/order/delOrder" parameters:@{@"orderId":orderObj.orderId} success:^(NSURLSessionDataTask *task, id responseObject) {
             
             if ([responseObject isKindOfClass:[NSDictionary class]]) {
@@ -277,6 +282,8 @@ static NSInteger showCount = 0;
         }];
     }];
     [alert show];
+    
+    [[WQDataShare sharedService].alertArray addObject:alert];
 }
 
 -(NSString *)returnCurrentyOrderObj:(WQCustomerOrderObj *)orderObj {

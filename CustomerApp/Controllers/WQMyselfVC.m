@@ -226,6 +226,7 @@
 //        }];
 //    }
     else if (indexPath.section==3) {
+        [Utility checkAlert];
         BlockAlertView *alert = [BlockAlertView alertWithTitle:@"Alert Title" message:NSLocalizedString(@"confirmLogOut", @"")];
         
         [alert setCancelButtonWithTitle:NSLocalizedString(@"Cancel", @"") block:nil];
@@ -255,6 +256,8 @@
             }];
         }];
         [alert show];
+        
+        [[WQDataShare sharedService].alertArray addObject:alert];
     }
 }
 

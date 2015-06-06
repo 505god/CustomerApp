@@ -12,7 +12,6 @@
 
 #import "WQCustomerOrderCell.h"
 
-#import "BlockAlertView.h"
 #import "BlockTextPromptAlertView.h"
 
 static NSInteger showCount = 0;
@@ -242,15 +241,19 @@ static NSInteger showCount = 0;
 
 -(void)reminddeliveryOrderWithCell:(WQCustomerOrderCell *)cell orderObj:(WQCustomerOrderObj *)orderObj {
     
+    [Utility checkAlert];
+    
     UITextField *textField;
     BlockTextPromptAlertView *alert = [BlockTextPromptAlertView promptWithTitle:NSLocalizedString(@"ReminddeliveryOrder", @"") message:nil textField:&textField type:0 block:^(BlockTextPromptAlertView *alert){
         [alert.textField resignFirstResponder];
         return YES;
     }];
     
-    [alert setCancelButtonWithTitle:NSLocalizedString(@"Cancel", @"") block:nil];
+    [alert setCancelButtonWithTitle:NSLocalizedString(@"Cancel", @"") block:^{
+        [[WQDataShare sharedService].alertArray removeAllObjects];
+    }];
     [alert setDestructiveButtonWithTitle:NSLocalizedString(@"Confirm", @"") block:^{
-        
+        [[WQDataShare sharedService].alertArray removeAllObjects];
         [[WQAPIClient sharedClient] POST:@"/rest/order/noticeOrderShipment" parameters:@{@"orderId":orderObj.orderId,@"message":textField.text} success:^(NSURLSessionDataTask *task, id responseObject) {
             
             if ([responseObject isKindOfClass:[NSDictionary class]]) {
@@ -268,6 +271,7 @@ static NSInteger showCount = 0;
         }];
     }];
     [alert show];
+    [[WQDataShare sharedService].alertArray addObject:alert];
 }
 
 @end

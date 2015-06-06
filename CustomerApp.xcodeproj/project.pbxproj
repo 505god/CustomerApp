@@ -10,7 +10,6 @@
 		5D505D931B05BDDA00076055 /* WQStoreObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D505D921B05BDDA00076055 /* WQStoreObj.m */; };
 		5D505D951B05CA0500076055 /* action-sheet-panel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D505D941B05CA0500076055 /* action-sheet-panel@2x.png */; };
 		5D505D981B05CA2900076055 /* BlockActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D505D971B05CA2900076055 /* BlockActionSheet.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		5D505D9A1B077B2500076055 /* ProductDetail.json in Resources */ = {isa = PBXBuildFile; fileRef = 5D505D991B077B2500076055 /* ProductDetail.json */; };
 		5D505D9D1B077F9500076055 /* WQProCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D505D9C1B077F9500076055 /* WQProCell.m */; };
 		5D505DA01B0871F800076055 /* WQProDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D505D9F1B0871F800076055 /* WQProDetailCell.m */; };
 		5D505DA31B08C12300076055 /* WQPropertyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D505DA21B08C12300076055 /* WQPropertyVC.m */; };
@@ -32,7 +31,7 @@
 		5D649C611B0F97430030DABA /* WQOrderDeliveryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D649C5A1B0F97430030DABA /* WQOrderDeliveryVC.m */; };
 		5D649C621B0F97430030DABA /* WQOrderReceivingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D649C5C1B0F97430030DABA /* WQOrderReceivingVC.m */; };
 		5D649C631B0F97430030DABA /* WQOrderFinishVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D649C5E1B0F97430030DABA /* WQOrderFinishVC.m */; };
-		5D649C651B0F983C0030DABA /* CustomerOrderList.json in Resources */ = {isa = PBXBuildFile; fileRef = 5D649C641B0F983C0030DABA /* CustomerOrderList.json */; };
+		5D69F1761B228CD6004AF88A /* sound.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5D69F1751B228CD6004AF88A /* sound.caf */; };
 		5D8AE5D51B0A245700EC8981 /* WQProductVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8AE5D41B0A245700EC8981 /* WQProductVC.m */; };
 		5D8AE64E1B0B43AB00EC8981 /* WQCustomerOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8AE64D1B0B43AB00EC8981 /* WQCustomerOrderVC.m */; };
 		5D8AE6511B0B7A5700EC8981 /* chatfrom_bg_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D8AE64F1B0B7A5700EC8981 /* chatfrom_bg_normal@2x.png */; };
@@ -478,7 +477,6 @@
 		5D505D941B05CA0500076055 /* action-sheet-panel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "action-sheet-panel@2x.png"; sourceTree = "<group>"; };
 		5D505D961B05CA2900076055 /* BlockActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockActionSheet.h; sourceTree = "<group>"; };
 		5D505D971B05CA2900076055 /* BlockActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlockActionSheet.m; sourceTree = "<group>"; };
-		5D505D991B077B2500076055 /* ProductDetail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ProductDetail.json; sourceTree = "<group>"; };
 		5D505D9B1B077F9500076055 /* WQProCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WQProCell.h; sourceTree = "<group>"; };
 		5D505D9C1B077F9500076055 /* WQProCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WQProCell.m; sourceTree = "<group>"; };
 		5D505D9E1B0871F800076055 /* WQProDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WQProDetailCell.h; sourceTree = "<group>"; };
@@ -514,7 +512,7 @@
 		5D649C5C1B0F97430030DABA /* WQOrderReceivingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WQOrderReceivingVC.m; sourceTree = "<group>"; };
 		5D649C5D1B0F97430030DABA /* WQOrderFinishVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WQOrderFinishVC.h; sourceTree = "<group>"; };
 		5D649C5E1B0F97430030DABA /* WQOrderFinishVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WQOrderFinishVC.m; sourceTree = "<group>"; };
-		5D649C641B0F983C0030DABA /* CustomerOrderList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CustomerOrderList.json; sourceTree = "<group>"; };
+		5D69F1751B228CD6004AF88A /* sound.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sound.caf; sourceTree = "<group>"; };
 		5D8AE5D31B0A245700EC8981 /* WQProductVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WQProductVC.h; sourceTree = "<group>"; };
 		5D8AE5D41B0A245700EC8981 /* WQProductVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WQProductVC.m; sourceTree = "<group>"; };
 		5D8AE64C1B0B43AB00EC8981 /* WQCustomerOrderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WQCustomerOrderVC.h; sourceTree = "<group>"; };
@@ -1616,8 +1614,6 @@
 				5D9F96DF1AFF21E4002EA87E /* AppDelegate.m */,
 				5D9F9AEE1AFF2533002EA87E /* BaseViewController.h */,
 				5D9F9AEF1AFF2533002EA87E /* BaseViewController.m */,
-				5D505D991B077B2500076055 /* ProductDetail.json */,
-				5D649C641B0F983C0030DABA /* CustomerOrderList.json */,
 				5D9261861B00DAF500651155 /* images */,
 				5D9F9AF11AFF2555002EA87E /* Views */,
 				5D9261731B00D83400651155 /* Controllers */,
@@ -1637,6 +1633,7 @@
 		5D9F96DA1AFF21E4002EA87E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5D69F1751B228CD6004AF88A /* sound.caf */,
 				5D8FFD361B2045D1009A28E8 /* PushConfig.plist */,
 				5D9262231B00E24D00651155 /* country.plist */,
 				5D9F9AD41AFF2398002EA87E /* customerApp.pch */,
@@ -3259,7 +3256,6 @@
 				5D9261F41B00DAF500651155 /* orderRemindGrey@2x.png in Resources */,
 				5D9261D81B00DAF500651155 /* Chat_record_circle.png in Resources */,
 				5D9261DE1B00DAF500651155 /* check@2x.png in Resources */,
-				5D505D9A1B077B2500076055 /* ProductDetail.json in Resources */,
 				5D9261F81B00DAF500651155 /* saleAct@2x.png in Resources */,
 				5D505DB91B08E0AB00076055 /* UIStepperRightPressed@2x.png in Resources */,
 				5DCF16981B0F2BE900564671 /* orderSearchAct@2x.png in Resources */,
@@ -3269,7 +3265,6 @@
 				5D9261DB1B00DAF500651155 /* chat_voice_record.png in Resources */,
 				5DB76DA41B01CA96008F0BB0 /* line@2x.png in Resources */,
 				5D9261C91B00DAF500651155 /* addProImgNormal@2x.png in Resources */,
-				5D649C651B0F983C0030DABA /* CustomerOrderList.json in Resources */,
 				5D9262211B00E24D00651155 /* country.plist in Resources */,
 				5D9261CD1B00DAF500651155 /* assets_placeholder_picture@2x.png in Resources */,
 				5D9261DA1B00DAF500651155 /* Chat_take_picture.png in Resources */,
@@ -3291,6 +3286,7 @@
 				5D9F99BA1AFF2216002EA87E /* JKImagePickerController.strings in Resources */,
 				5D9F99AA1AFF2216002EA87E /* button-cancel-d.png in Resources */,
 				5D505DB31B08E0AB00076055 /* UIStepperLeft@2x.png in Resources */,
+				5D69F1761B228CD6004AF88A /* sound.caf in Resources */,
 				5D92620B1B00DB1400651155 /* Localizable.strings in Resources */,
 				5D9262041B00DAF500651155 /* webbackNor@2x.png in Resources */,
 				5D9261E11B00DAF500651155 /* customerAct@2x.png in Resources */,
@@ -3821,7 +3817,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: peng cheng (PKP4A39346)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: peng cheng (PKP4A39346)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3858,7 +3854,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: peng cheng (X988FK9D4U)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: peng cheng (X988FK9D4U)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

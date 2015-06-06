@@ -11,8 +11,6 @@
 #import "WQCustomerOrderObj.h"
 #import "WQCustomerOrderCell.h"
 
-#import "BlockAlertView.h"
-
 static NSInteger showCount = 0;
 
 @interface WQOrderFinishVC ()<UITableViewDelegate,UITableViewDataSource,WQCustomerOrderCellDelegate>

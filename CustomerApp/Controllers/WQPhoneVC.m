@@ -195,12 +195,16 @@
     
     //TODO: 验证手机号码有没有被注册
     
+    [Utility checkAlert];
     
     NSString* str=[NSString stringWithFormat:@"%@:%@ %@",NSLocalizedString(@"willsendthecodeto", nil),self.areaCodeField.text,self.telField.text];
     BlockAlertView *alert = [BlockAlertView alertWithTitle:@"Alert Title" message:str];
     
-    [alert setCancelButtonWithTitle:NSLocalizedString(@"Cancel", @"") block:nil];
+    [alert setCancelButtonWithTitle:NSLocalizedString(@"Cancel", @"") block:^{
+        [[WQDataShare sharedService].alertArray removeAllObjects];
+    }];
     [alert setDestructiveButtonWithTitle:NSLocalizedString(@"Confirm", @"") block:^{
+        [[WQDataShare sharedService].alertArray removeAllObjects];
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         __block WQCodeVC* codeVC=[[WQCodeVC alloc] init];
         NSString* str2=[self.areaCodeField.text stringByReplacingOccurrencesOfString:@"+" withString:@""];
@@ -222,6 +226,8 @@
         }];
     }];
     [alert show];
+    
+    [[WQDataShare sharedService].alertArray addObject:alert];
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

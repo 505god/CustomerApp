@@ -13,7 +13,6 @@
 #import "WQCustomerOrderCell.h"
 
 #import "BlockAlertView.h"
-#import "BlockTextPromptAlertView.h"
 
 static NSInteger showCount = 0;
 
@@ -239,10 +238,14 @@ static NSInteger showCount = 0;
 #pragma mark -
 //买家确认收货接口
 -(void)receiveOrderWithCell:(WQCustomerOrderCell *)cell orderObj:(WQCustomerOrderObj *)orderObj {
+    [Utility checkAlert];
     BlockAlertView *alert = [BlockAlertView alertWithTitle:@"Alert Title" message:NSLocalizedString(@"receiveOrder", @"")];
     
-    [alert setCancelButtonWithTitle:NSLocalizedString(@"Cancel", @"") block:nil];
+    [alert setCancelButtonWithTitle:NSLocalizedString(@"Cancel", @"") block:^{
+        [[WQDataShare sharedService].alertArray removeAllObjects];
+    }];
     [alert setDestructiveButtonWithTitle:NSLocalizedString(@"Confirm", @"") block:^{
+        [[WQDataShare sharedService].alertArray removeAllObjects];
         [[WQAPIClient sharedClient] POST:@"/rest/order/makeSureShipment" parameters:@{@"orderId":orderObj.orderId} success:^(NSURLSessionDataTask *task, id responseObject) {
             
             if ([responseObject isKindOfClass:[NSDictionary class]]) {
@@ -265,6 +268,7 @@ static NSInteger showCount = 0;
         
     }];
     [alert show];
+    [[WQDataShare sharedService].alertArray addObject:alert];
 }
 
 @end

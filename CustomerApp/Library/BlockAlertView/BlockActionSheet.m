@@ -235,10 +235,24 @@ static UIFont *buttonFont = nil;
         [self autorelease];
     }
 }
-
+- (void)performDismissal {
+    CGPoint center = _view.center;
+    center.y += _view.bounds.size.height;
+    [UIView animateWithDuration:0.4
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         _view.center = center;
+                         [[BlockBackground sharedInstance] reduceAlphaIfEmpty];
+                     } completion:^(BOOL finished) {
+                         [[BlockBackground sharedInstance] removeView:_view];
+                         [_view release]; _view = nil;
+                         [self autorelease];
+                     }];
+}
 #pragma mark - Action
 
-- (void)buttonClicked:(id)sender 
+- (void)buttonClicked:(id)sender
 {
     /* Run the button's block */
     UIButton *btn = (UIButton *)sender;

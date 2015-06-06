@@ -66,10 +66,15 @@ static int count = 0;
 
 
 -(void)CannotGetSMS {
+    [Utility checkAlert];
+    
      NSString* str=[NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"cannotgetsmsmsg", nil) ,_phone];
+    
     BlockAlertView *alert = [BlockAlertView alertWithTitle:NSLocalizedString(@"surephonenumber", nil) message:str];
     
-    [alert setCancelButtonWithTitle:NSLocalizedString(@"Cancel", @"") block:nil];
+    [alert setCancelButtonWithTitle:NSLocalizedString(@"Cancel", @"") block:^{
+        [[WQDataShare sharedService].alertArray removeAllObjects];
+    }];
     [alert setDestructiveButtonWithTitle:NSLocalizedString(@"Confirm", @"") block:^{
         
         [SMS_SDK getVerifyCodeByPhoneNumber:_phone AndZone:_areaCode result:^(enum SMS_GetVerifyCodeResponseState state){
@@ -89,6 +94,7 @@ static int count = 0;
         
     }];
     [alert show];
+    [[WQDataShare sharedService].alertArray addObject:alert];
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

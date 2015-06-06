@@ -370,6 +370,7 @@ forHTTPHeaderField:(NSString *)field
         }
     }
     [mutableRequest setValue:[APService registrationID] forHTTPHeaderField:@"registractionid"];
+    [mutableRequest setValue:@"ios" forHTTPHeaderField:@"userAgent"];
     
     for (NSString *keyPath in AFHTTPRequestSerializerObservedKeyPaths()) {
         if ([self.mutableObservedChangedKeyPaths containsObject:keyPath]) {

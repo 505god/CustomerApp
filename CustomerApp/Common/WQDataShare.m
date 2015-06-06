@@ -26,4 +26,10 @@
     return dataService;
 }
 
+-(NSMutableArray *)alertArray {
+    if (!_alertArray) {
+        _alertArray = [[NSMutableArray alloc]init];
+    }
+    return _alertArray;
+}
 @end
