@@ -34,6 +34,8 @@
               @"proClassBId": mts_key(proClassBId),
               @"proClassBName": mts_key(proClassBName),
               
+              @"red": mts_key(remindRedPoint),
+              
               };
 }
 

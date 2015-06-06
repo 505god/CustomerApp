@@ -29,6 +29,8 @@
 #import "PayPalMobile.h"
 #import "BlockAlertView.h"
 
+#import "WQMessageVC.h"
+
 @interface AppDelegate ()<ChatDelegate>
 
 @property (strong, nonatomic) Reachability *hostReach;//网络监听所用
@@ -86,10 +88,6 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    WQInitVC *initVC = [[WQInitVC alloc]init];
-    self.navControl = [[UINavigationController alloc]initWithRootViewController:initVC];
-    self.window.rootViewController = self.navControl;
-    
     //获取未读信息
     NSFileManager *fileManage = [NSFileManager defaultManager];
     NSString *path = [Utility returnPath];
@@ -108,15 +106,25 @@
     [defaults setInteger:1 forKey:@"isOn"];
     [defaults synchronize];
     
+    [WQDataShare sharedService].isPushing = NO;
+    [WQDataShare sharedService].pushType = WQPushTypeNone;
     //点击推送进入App
     NSDictionary *pushDict = [launchOptions objectForKey:@"UIApplicationLaunchOptionsRemoteNotificationKey"];
     if (pushDict) {
+        [WQDataShare sharedService].isPushing = YES;
+        [WQDataShare sharedService].pushType = [[pushDict objectForKey:@"type"]intValue];
     }
     SafeRelease(pushDict);
     
     
     [WQDataShare sharedService].idRegister = [[[NSUserDefaults standardUserDefaults] objectForKey:@"register"]boolValue];
     [self getCurrentLanguage];
+    
+    
+    WQInitVC *initVC = [[WQInitVC alloc]init];
+    self.navControl = [[UINavigationController alloc]initWithRootViewController:initVC];
+    self.window.rootViewController = self.navControl;
+    
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -246,9 +254,15 @@
         
         [alert setCancelButtonWithTitle:NSLocalizedString(@"Confirm", @"") block:nil];
         [alert show];
+    }else {
+        [WQDataShare sharedService].pushType = type;
+        if (isOn == 1) {//app登录
+            
+        }else if (isOn == 2) {//app从后台进入前台
+            [WQDataShare sharedService].isPushing = YES;
+            [self showRootVC];
+        }
     }
-    
-    
 }
 #pragma mark - 获取当前语言
 - (void)getCurrentLanguage {
@@ -323,16 +337,36 @@
                     WQMyselfVC *myselfVC = [[WQMyselfVC alloc]init];
                     
                     mainVC.childenControllerArray = @[hotVC,classifyVC,searchVC,orderVC,myselfVC];
-                    
-                    [mainVC setCurrentPageVC:0];
                     self.navControl = [[UINavigationController alloc]initWithRootViewController:mainVC];
+                    self.window.rootViewController = self.navControl;
                     
+                    [WQDataShare sharedService].isPushing = YES;
+                    [WQDataShare sharedService].pushType = WQPushTypeOrderRemindPay;
+                    if ([WQDataShare sharedService].isPushing) {
+                        
+                        [WQDataShare sharedService].isPushing = NO;
+                        
+                        if ([WQDataShare sharedService].pushType==WQPushTypeOrderRemindPay || [WQDataShare sharedService].pushType==WQPushTypeOrderDelivery) {
+                            [mainVC setCurrentPageVC:3];
+                        }else if ([WQDataShare sharedService].pushType==WQPushTypeProduct) {
+                            [mainVC setCurrentPageVC:0];
+                        }else if ([WQDataShare sharedService].pushType==WQPushTypeChat) {
+                            [mainVC setCurrentPageVC:4];
+                            WQMessageVC *messageVC = [[WQMessageVC alloc]init];
+                            [myselfVC.navigationController pushViewController:messageVC animated:YES];
+                            SafeRelease(messageVC);
+                        }
+                    }else {
+                        [mainVC setCurrentPageVC:0];
+                    }
+                    
+
                     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
                     dispatch_async(queue, ^{
                         [self logIn];
                     });
                     
-                    self.window.rootViewController = self.navControl;
+                    
                     SafeRelease(hotVC);SafeRelease(classifyVC);SafeRelease(orderVC);SafeRelease(myselfVC);SafeRelease(mainVC);SafeRelease(searchVC);
                 }
             }];

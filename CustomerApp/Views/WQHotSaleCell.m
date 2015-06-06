@@ -7,6 +7,7 @@
 //
 
 #import "WQHotSaleCell.h"
+#import "RKNotificationHub.h"
 
 @interface WQHotSaleCell ()
 //图片
@@ -16,6 +17,8 @@
 @property (nonatomic, strong) UILabel *saleLab;
 @property (nonatomic, strong) UIImageView *lineImg;
 @property (nonatomic, strong) UIImageView *lineImg2;
+
+@property (nonatomic, strong) RKNotificationHub *notificationHub;
 @end
 
 @implementation WQHotSaleCell
@@ -66,6 +69,9 @@
         self.lineImg2.backgroundColor = [UIColor clearColor];
         self.lineImg2.image = [UIImage imageNamed:@"hLine"];
         [self.contentView addSubview:self.lineImg2];
+        
+        self.notificationHub = [[RKNotificationHub alloc]initWithView:self.contentView];
+        [self.notificationHub setCount:-1];
     }
     
     return self;
@@ -89,6 +95,12 @@
 
     self.saleLab.text = [NSString stringWithFormat:@"%@:%d",NSLocalizedString(@"HasSale", @""),productObj.proSaleCount];
     
+    if (productObj.remindRedPoint==1) {
+        [self.notificationHub setCount:0];
+        [self.notificationHub bump];
+    }else {
+        [self.notificationHub setCount:-1];
+    }
 }
 
 -(void)layoutSubviews {
@@ -106,6 +118,7 @@
     }
     
     self.proImage.frame = (CGRect){5,5,self.width-10,self.width-10};
+    [self.notificationHub setCircleAtFrame:(CGRect){self.proImage.right-10,self.proImage.top-5,15,15}];
     
     self.nameLab.frame = (CGRect){5,self.proImage.bottom+5,self.width-10,18};
     
@@ -123,5 +136,6 @@
     self.nameLab.text = nil;
     self.saleLab.text = nil;
     self.productObj = nil;
+    [self.notificationHub setCount:-1];
 }
 @end

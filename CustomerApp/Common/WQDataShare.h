@@ -32,7 +32,9 @@
 @property (nonatomic, strong) NSMutableArray *messageArray;
 
 + (WQDataShare *)sharedService;
-
+//判断是否是点击推送进来的
+@property (nonatomic, assign) BOOL isPushing;
+@property (nonatomic, assign) WQPushType pushType;
 
 ///红点
 @property (nonatomic, assign) BOOL myselfPoint;//第4个item  我

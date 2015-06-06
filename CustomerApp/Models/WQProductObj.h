@@ -52,4 +52,6 @@
 @property (nonatomic, strong) NSString *proClassBName;
 @property (nonatomic, assign) NSInteger proClassBId;
 
+//新增商品与推荐客户
+@property (nonatomic, assign) NSInteger remindRedPoint;
 @end

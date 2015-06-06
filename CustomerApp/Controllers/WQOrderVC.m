@@ -100,6 +100,13 @@
     
     self.pagesContainer.viewControllers = @[payVC,dealVC,deliveryVC,receivingVC,finishVC];
     SafeRelease(deliveryVC);SafeRelease(payVC);SafeRelease(finishVC);SafeRelease(receivingVC);SafeRelease(dealVC);
+    
+    if ([WQDataShare sharedService].pushType == WQPushTypeOrderDelivery) {
+        self.pagesContainer.selectedIndex = 3;
+    }else {
+        self.pagesContainer.selectedIndex = 0;
+    }
+    
 }
 
 

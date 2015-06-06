@@ -3850,7 +3850,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = CustomerApp;
-				PROVISIONING_PROFILE = "260429c7-010e-4df6-ac54-1f92c5bbcbc9";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -3887,7 +3887,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = CustomerApp;
-				PROVISIONING_PROFILE = "260429c7-010e-4df6-ac54-1f92c5bbcbc9";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

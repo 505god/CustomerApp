@@ -241,6 +241,9 @@
         } completion:^(BOOL finished) {
             WQProductDetailVC *detailVC = [[WQProductDetailVC alloc]init];
             WQProductObj *proObj = (WQProductObj *)self.dataArray[indexPath.item];
+            proObj.remindRedPoint = 0;
+            [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+            
             detailVC.productObj = proObj;
             [self.navigationController pushViewController:detailVC animated:YES];
             SafeRelease(detailVC);
